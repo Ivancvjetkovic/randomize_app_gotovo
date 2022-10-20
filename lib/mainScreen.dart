@@ -18,11 +18,11 @@ class MainScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => RandomBloc(randomRepository: httpService),
       child: Scaffold(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.teal,
         drawer: const NavBar(),
         appBar: AppBar(
-          backgroundColor: Colors.greenAccent,
-          iconTheme: const IconThemeData(color: Colors.grey),
+          backgroundColor: Colors.teal,
+          iconTheme: const IconThemeData(color: Colors.lightBlueAccent),
           elevation: 0,
         ),
         body: Center(
@@ -31,7 +31,7 @@ class MainScreen extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: const EdgeInsets.only(left: 30.0),
                     child: const Text(
                       'What are we going to do today?',
@@ -43,10 +43,10 @@ class MainScreen extends StatelessWidget {
                       context.read<RandomBloc>().add(RandomSubmitEvent());
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Colors.teal[900],
                       foregroundColor: Colors.white,
                       elevation: 20,
-                      shadowColor: Colors.teal,
+                      shadowColor: Colors.teal[900],
                       side: const BorderSide(color: Colors.black, width: 1.5),
                     ),
                     child: const Text(
@@ -56,11 +56,14 @@ class MainScreen extends StatelessWidget {
                   ),
                   () {
                     if (randomState.status == RandomStateStatus.loading) {
-                      return CircularProgressIndicator();
+                      return CircularProgressIndicator(
+                        color: Colors.grey,
+                      );
                     }
                     return Text(
                       randomState.activityModel?.activity ?? 'My next activity',
                       style: TextStyle(fontSize: 25),
+                      textAlign: TextAlign.center,
                     );
                   }()
                 ],

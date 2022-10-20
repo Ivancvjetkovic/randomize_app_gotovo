@@ -39,14 +39,12 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.greenAccent,
-    
       child: BlocBuilder<RandomBloc, RandomState>(
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return ListView(
             children: [
               const Padding(
-                padding: EdgeInsets.only(top: 40, left: 10),
+                padding: EdgeInsets.only(top: 10, left: 10),
                 child: Text(
                   'Filters',
                   style: TextStyle(fontSize: 40),
@@ -192,6 +190,7 @@ class _NavBarState extends State<NavBar> {
                       onPressed: () {
                         print(state.filterModel?.type);
                         print(state.filterModel?.accessibility);
+                        Navigator.pop(context);
                       },
                       child: const Text(
                         'Filter',

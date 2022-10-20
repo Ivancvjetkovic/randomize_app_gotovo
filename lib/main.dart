@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:randomize_app/mainScreen.dart';
+import 'package:randomize_app/signInScreen.dart';
 
 import 'bloc/bloc.dart';
 
@@ -16,7 +17,7 @@ class RandomizeApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Schyler'),
       debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+      home: SignIn(),
     );
   }
 }
