@@ -20,18 +20,21 @@ class RandomBloc extends Bloc<RandomEvent, RandomState> {
   }
 
   Future<void> _reset(RandomResetEvent event, Emitter<RandomState> emit) async {
-    emit(state.copyWith(filterModel: null));
+    emit(state.copyWith(filterModel: FilterModel()));
   }
 
   Future<void> _submit(
       RandomSubmitEvent event, Emitter<RandomState> emit) async {
     emit(state.copyWith(status: RandomStateStatus.loading));
     ActivityModel? result;
-    if (state.filterModel != null) {
+    if (state.filterModel?.type == null &&
+        state.filterModel?.accessibility == null &&
+        state.filterModel?.participants == null &&
+        state.filterModel?.price == null) {
+      result = await randomRepository.getActivity();
+    } else {
       result = await randomRepository.getActivityWithFilters(
           model: state.filterModel);
-    } else {
-      result = await randomRepository.getActivity();
     }
 
     if (result != null) {
@@ -40,10 +43,10 @@ class RandomBloc extends Bloc<RandomEvent, RandomState> {
             status: RandomStateStatus.loadedSuccess, activityModel: result),
       );
     } else {
-      emit(state.copyWith(status: RandomStateStatus.initial));
+      emit(state.copyWith(status: RandomStateStatus.loadedError));
     }
   }
 
-  static RandomState initialState() =>
-      RandomState(status: RandomStateStatus.initial);
+  static RandomState initialState() => RandomState(
+      status: RandomStateStatus.initial, filterModel: FilterModel());
 }

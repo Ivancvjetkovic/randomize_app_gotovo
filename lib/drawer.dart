@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:randomize_app/bloc/bloc_event.dart';
 import 'package:randomize_app/mainScreen.dart';
 import 'package:randomize_app/model.dart';
@@ -37,6 +38,8 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.greenAccent,
+    
       child: BlocBuilder<RandomBloc, RandomState>(
         builder: (context, state) {
           return Column(
@@ -65,6 +68,7 @@ class _NavBarState extends State<NavBar> {
                   (index) => Container(
                     height: 25,
                     child: RadioListTile(
+                      activeColor: Colors.teal,
                       visualDensity: const VisualDensity(vertical: -4),
                       dense: true,
                       contentPadding: const EdgeInsets.all(0),
@@ -96,6 +100,9 @@ class _NavBarState extends State<NavBar> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Slider(
+                      thumbColor: Colors.teal,
+                      activeColor: Colors.teal,
+                      inactiveColor: Colors.teal,
                       value: _currentSliderValue,
                       max: 1,
                       min: 0,
@@ -162,11 +169,12 @@ class _NavBarState extends State<NavBar> {
                         (index) => Container(
                           height: 25,
                           child: RadioListTile(
+                            activeColor: Colors.teal,
                             visualDensity: const VisualDensity(vertical: -4),
                             dense: true,
                             contentPadding: const EdgeInsets.all(0),
                             title: Text(price[index]),
-                            value: '',
+                            value: '${price[index]}',
                             groupValue: priced,
                             onChanged: (String? value) {
                               setState(() {
@@ -191,7 +199,23 @@ class _NavBarState extends State<NavBar> {
                       ),
                       style: const ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.blue),
+                            MaterialStatePropertyAll<Color>(Colors.teal),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        context.read<RandomBloc>().add(RandomResetEvent());
+                      },
+                      child: const Text(
+                        'Reset',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.teal),
                       ),
                     ),
                   ),

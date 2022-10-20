@@ -18,10 +18,10 @@ class MainScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => RandomBloc(randomRepository: httpService),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.greenAccent,
         drawer: const NavBar(),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.greenAccent,
           iconTheme: const IconThemeData(color: Colors.grey),
           elevation: 0,
         ),
@@ -31,19 +31,22 @@ class MainScreen extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    'What are we going to do today?',
-                    style: TextStyle(fontSize: 25),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: const Text(
+                      'What are we going to do today?',
+                      style: TextStyle(fontSize: 25, color: Colors.black),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () async {
                       context.read<RandomBloc>().add(RandomSubmitEvent());
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlue,
-                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
                       elevation: 20,
-                      shadowColor: Colors.lightBlue,
+                      shadowColor: Colors.teal,
                       side: const BorderSide(color: Colors.black, width: 1.5),
                     ),
                     child: const Text(
@@ -51,11 +54,15 @@ class MainScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  Text( 
-                    randomState.activityModel?.activity ?? 
-                    'Learn a new recipe',
-                    style: TextStyle(fontSize: 25),
-                  ),
+                  () {
+                    if (randomState.status == RandomStateStatus.loading) {
+                      return CircularProgressIndicator();
+                    }
+                    return Text(
+                      randomState.activityModel?.activity ?? 'My next activity',
+                      style: TextStyle(fontSize: 25),
+                    );
+                  }()
                 ],
               );
             },
